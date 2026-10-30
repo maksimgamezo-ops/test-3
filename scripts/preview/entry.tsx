@@ -11,7 +11,13 @@ function Preview(){
  const Page=pages[pathname as keyof typeof pages]??NotFound;
  const scrollToAnchor=()=>{
   const anchor=window.location.hash.split('::')[1];
-  if(anchor)document.getElementById(decodeURIComponent(anchor))?.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});
+  if(anchor){
+   let id:string;try{id=decodeURIComponent(anchor);}catch{return;}
+   const target=document.getElementById(id);if(!target)return;
+   target.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});
+   if(!target.hasAttribute('tabindex')){target.setAttribute('tabindex','-1');target.addEventListener('blur',()=>target.removeAttribute('tabindex'),{once:true});}
+   target.focus({preventScroll:true});
+  }
   else window.scrollTo({top:0,behavior:'instant'});
  };
  useLayoutEffect(()=>{scrollToAnchor();document.title=pathname==='/'?'BAUPLANINVEST — пространства для развития бизнеса':'BAUPLANINVEST';},[pathname]);

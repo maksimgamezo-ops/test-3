@@ -1,13 +1,14 @@
 // Uses Chromium's own screencast and the installed ffmpeg; no Playwright CDN binary.
 import {chromium,expect} from '@playwright/test';
 import {existsSync} from 'node:fs';
-import {mkdtemp,writeFile} from 'node:fs/promises';
+import {mkdtemp,writeFile,readFile} from 'node:fs/promises';
 import {execFileSync} from 'node:child_process';
 import path from 'node:path';
 const browser=await chromium.launch({executablePath:process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH||(existsSync('/usr/bin/chromium')?'/usr/bin/chromium':undefined),args:['--no-sandbox','--enable-unsafe-swiftshader']});
 try{
  const context=await browser.newContext({viewport:{width:1280,height:1000}});const page=await context.newPage();
- await page.goto(process.env.BASE_URL||'http://127.0.0.1:3001',{waitUntil:'networkidle'});
+ if(process.env.OFFLINE_PREVIEW==='1'){await context.setOffline(true);await page.setContent(await readFile('deliverables/BAUPLANINVEST.html','utf8'));}
+ else await page.goto(process.env.BASE_URL||'http://127.0.0.1:3001',{waitUntil:'networkidle'});
  await page.locator('#creation').scrollIntoViewIfNeeded();
  const directory=await mkdtemp('/tmp/bauplan-frames-'),frames=[],pending=[];
  const session=await context.newCDPSession(page);

@@ -28,4 +28,19 @@ test('offline skip link preserves the selected page instead of returning home',a
  const heading=await page.getByRole('heading',{level:1}).textContent();
  await page.getByRole('link',{name:'Перейти к содержимому',exact:true}).focus();await page.keyboard.press('Enter');
  await expect(page.getByRole('heading',{level:1})).toHaveText(heading!);
+ await expect(page.locator('main')).toBeFocused();
+ await page.keyboard.press('Tab');
+ await expect(page.locator('header .wordmark')).not.toBeFocused();
+});
+test('standalone distribution includes full copyright and permission notices for bundled libraries',async({page})=>{
+ await page.setContent(await readFile(file,'utf8'));
+ const notices=JSON.parse((await page.locator('#asset-licenses').textContent())!);
+ expect(notices.libraries).toBeInstanceOf(Array);
+ for(const name of ['react','react-dom','three','@react-three/fiber','zustand']){
+  const license=notices.libraries.find((entry:{name:string})=>entry.name===name);
+  expect(license,`license missing for ${name}`).toBeTruthy();
+  expect(license.text).toContain('Permission is hereby granted');
+  expect(license.text).toMatch(/copyright/i);
+ }
+ expect(notices.missing).toEqual([]);
 });

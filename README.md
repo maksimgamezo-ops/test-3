@@ -29,7 +29,7 @@ npm run build
 npm run test:e2e
 ```
 
-Playwright проверяет production-сборку и при необходимости сам запускает `npm start -- --port 3001`. Сначала выполните build. Chromium: автоматически используется `/usr/bin/chromium`, если он установлен; иначе `npx playwright install chromium`. Можно задать `PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH` и `TEST_PORT`. Доступ к CDN Playwright может требовать изменения сетевых настроек среды; проверка не обходит ограничения. Для строгой проверки свежего процесса запускайте `CI=1 npm run test:e2e` при свободном порте. Результаты и непроверенные платформы — [docs/qa.md](docs/qa.md).
+Перед browser-тестами npm автоматически собирает автономный HTML через pretest:e2e. Playwright проверяет production-сборку и при необходимости сам запускает `npm start -- --port 3001`. Сначала выполните build. Chromium: автоматически используется `/usr/bin/chromium`, если он установлен; иначе `npx playwright install chromium`. Можно задать `PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH` и `TEST_PORT`. Доступ к CDN Playwright может требовать изменения сетевых настроек среды; проверка не обходит ограничения. Для строгой проверки свежего процесса запускайте `CI=1 npm run test:e2e` при свободном порте. Результаты и непроверенные платформы — [docs/qa.md](docs/qa.md).
 
 ## Что и где редактировать
 
