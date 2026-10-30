@@ -26,3 +26,13 @@ test('every content route and 404 has a meaningful heading',async({page})=>{
  const response=await page.goto('/does-not-exist');expect(response?.status()).toBe(404);
  await expect(page.getByRole('heading',{level:1})).toContainText('Страница не найдена');
 });
+test('leaving mobile breakpoint closes menu and unlocks desktop layout',async({page})=>{
+ await page.setViewportSize({width:390,height:844});await page.goto('/');
+ const menu=page.getByRole('button',{name:'Меню',exact:true,includeHidden:true});await menu.click();
+ await expect(menu).toHaveAttribute('aria-expanded','true');
+ await page.setViewportSize({width:1280,height:900});
+ await expect(menu).toHaveAttribute('aria-expanded','false');
+ await expect(page.locator('#mobile-navigation')).toBeHidden();
+ await expect.poll(()=>page.evaluate(()=>document.body.style.overflow)).not.toBe('hidden');
+ expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+});

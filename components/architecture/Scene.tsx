@@ -42,13 +42,23 @@ function CameraRig({seconds,detail=0,resetKey}:Pick<Props,'seconds'|'detail'|'re
   invalidate();
  },[seconds,detail,resetKey,size.width,camera,invalidate]);return null;
 }
+function ContextLossMonitor({onError}:{onError:()=>void}){
+ const gl=useThree(state=>state.gl);
+ useEffect(()=>{
+  const canvas=gl.domElement;
+  const lost=(event:Event)=>{event.preventDefault();onError();};
+  canvas.addEventListener('webglcontextlost',lost);
+  return()=>canvas.removeEventListener('webglcontextlost',lost);
+ },[gl,onError]);
+ return null;
+}
 export default function Scene(props:Props){
  const controls=useRef<React.ComponentRef<typeof OrbitControls>>(null);
  useEffect(()=>{controls.current?.reset();},[props.resetKey]);
  return <Canvas frameloop="demand" shadows dpr={[1,1.5]} camera={{position:[35,22,42],fov:44,near:.1,far:350}} gl={{antialias:true,alpha:false,localClippingEnabled:true,powerPreference:'low-power'}} onCreated={({gl})=>{
   gl.setClearColor('#17242d');gl.domElement.setAttribute('aria-label','Интерактивная концептуальная модель коммерческого здания');gl.domElement.setAttribute('role','img');
-  gl.domElement.addEventListener('webglcontextlost',props.onError,{once:true});
  }}>
+  <ContextLossMonitor onError={props.onError}/>
   <fog attach="fog" args={['#17242d',75,230]}/>
   <ambientLight intensity={.35}/><hemisphereLight args={['#abc7e3','#444633',.8]}/>
   <directionalLight position={[5,26,15]} intensity={1.6} color="#c5daff" castShadow shadow-mapSize={[1024,1024]} shadow-camera-left={-28} shadow-camera-right={28} shadow-camera-top={25} shadow-camera-bottom={-25}/>

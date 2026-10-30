@@ -66,6 +66,10 @@ npm start -- --port 3000
 
 Для резервного копирования сохраняйте исходники, lockfile, `assets/`, `public/` и отдельно безопасную конфигурацию размещения; `.next` и node_modules воспроизводимы. После восстановления: npm ci → build → smoke/e2e → переключение трафика. Проверяйте восстановление и предыдущую рабочую версию перед обновлениями. Живые процессы из snapshot не восстанавливаются.
 
+## Превью
+
+`docs/previews/desktop.png`, `mobile.png`, `home-full.png`, `mobile-full.png` и `contacts-mobile.png` — снимки Chromium. `docs/previews/sequence.webm` — реальное воспроизведение WebGL-последовательности. Повторная съёмка при запущенной production-версии: `node scripts/capture.mjs`; видео: `node scripts/capture-sequence.mjs` (нужны Chromium и системный FFmpeg).
+
 ## Перед запуском
 
 Сайт не опубликован. Политика конфиденциальности — черновик. Форма не подключена; ссылки tel/mailto реальные, доставка письма зависит от приложения посетителя. [Полный список согласований и ограничений](docs/launch-checklist.md).

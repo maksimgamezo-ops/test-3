@@ -1,6 +1,8 @@
 import Link from 'next/link';
 import {company,stages} from '@/content/company';
 import Sequence from '@/components/architecture/Sequence';
+import {pageMetadata} from '@/lib/metadata';
+export const metadata=pageMetadata('Пространства для развития бизнеса',company.description,'/');
 export default function Home(){return <main id="main">
 <section className="hero" aria-labelledby="hero-title">
  <div className="hero-editorial"><div className="eyebrow"><span className="small-rule"/>ДЕВЕЛОПМЕНТ / БЕЛАРУСЬ</div><h1 id="hero-title">Пространства <br/>для развития <br/><span>бизнеса</span></h1><p className="hero-intro">Девелопмент коммерческой<br/>недвижимости в Беларуси</p><div className="hero-actions"><Link className="button button-light" href="/about">О компании <span aria-hidden="true">↗</span></Link><a className="quiet-link" href="#creation">Как создаётся проект <span aria-hidden="true">↓</span></a></div></div>

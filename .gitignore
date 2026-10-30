@@ -7,3 +7,4 @@ test-results/
 playwright-report/
 *.blend1
 *.tsbuildinfo
+next-env.d.ts

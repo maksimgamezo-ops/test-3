@@ -12,7 +12,7 @@ export default function Sequence({modelUrl='/models/architecture.glb',posterUrl=
  const container=useRef<HTMLDivElement>(null);
  const onReady=useCallback(()=>setReady(true),[]),onError=useCallback(()=>{setFailed(true);setPlaying(false);},[]);
  useEffect(()=>{const mq=window.matchMedia('(prefers-reduced-motion: reduce)');const update=()=>{setReduced(mq.matches);if(mq.matches){setPlaying(false);setActive(false);setSeconds(15);}};update();mq.addEventListener('change',update);return()=>mq.removeEventListener('change',update);},[]);
- useEffect(()=>{if(!active||ready||failed)return;const timer=window.setTimeout(onError,25000);return()=>clearTimeout(timer);},[active,ready,failed,onError]);
+ useEffect(()=>{if(!active||!inView||ready||failed)return;const timer=window.setTimeout(onError,25000);return()=>clearTimeout(timer);},[active,inView,ready,failed,onError]);
  useEffect(()=>{
   const observer=new IntersectionObserver(([entry])=>{setInView(entry.isIntersecting);if(!entry.isIntersecting)setPlaying(false);},{threshold:.15});
   if(container.current)observer.observe(container.current);
