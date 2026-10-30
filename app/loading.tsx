@@ -1,0 +1,1 @@
+export default function Loading(){return <main id="main" className="error-page" aria-busy="true"><p className="eyebrow">BAUPLANINVEST</p><h1>Открываем следующую главу.</h1><p role="status">Загрузка страницы…</p></main>;}

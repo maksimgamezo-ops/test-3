@@ -1,0 +1,2 @@
+import Link from 'next/link';import {company} from '@/content/company';
+export default function ContactInvitation(){return <section className="contact-invitation"><p className="eyebrow">СЛЕДУЮЩИЙ ШАГ</p><div><h2>Обсудим<br/><span>вашу задачу.</span></h2><div><p>Любой проект начинается с разговора.<br/>Расскажите, какое пространство нужно вашему бизнесу.</p><Link href="/contacts" className="button button-light">Связаться <span aria-hidden="true">↗</span></Link><a href={`mailto:${company.email}`} className="invitation-email">{company.email}</a></div></div></section>;}

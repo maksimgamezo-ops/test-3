@@ -1,0 +1,10 @@
+import {chromium} from '@playwright/test';
+import {existsSync} from 'node:fs';
+const browser=await chromium.launch({executablePath:process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH||(existsSync('/usr/bin/chromium')?'/usr/bin/chromium':undefined),args:['--no-sandbox','--enable-unsafe-swiftshader']});
+const page=await browser.newPage({viewport:{width:1440,height:1000},deviceScaleFactor:1});
+const base=process.env.BASE_URL||'http://127.0.0.1:3001';
+await page.goto(base,{waitUntil:'networkidle'});await page.screenshot({path:'docs/previews/desktop.png'});await page.screenshot({path:'docs/previews/home-full.png',fullPage:true});
+await page.setViewportSize({width:390,height:844});await page.screenshot({path:'docs/previews/mobile.png'});
+await page.screenshot({path:'docs/previews/mobile-full.png',fullPage:true});
+await page.goto(`${base}/contacts`,{waitUntil:'networkidle'});await page.screenshot({path:'docs/previews/contacts-mobile.png',fullPage:true});
+await browser.close();

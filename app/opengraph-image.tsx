@@ -1,0 +1,7 @@
+import { ImageResponse } from 'next/og';import { readFile } from 'node:fs/promises';import path from 'node:path';
+export const alt='BAUPLANINVEST — пространства для развития бизнеса. Демонстрационная архитектурная визуализация.';
+export const size={width:1200,height:630};export const contentType='image/png';
+export default async function Image(){
+ const [font,image]=await Promise.all([readFile(path.join(process.cwd(),'public/fonts/NotoSans-Regular.ttf')),readFile(path.join(process.cwd(),'public/images/architecture-desktop.png'))]);
+ return new ImageResponse(<div style={{display:'flex',background:'#17242d',width:'100%',height:'100%',color:'#f2efe7',fontFamily:'Noto',position:'relative'}}><img src={`data:image/png;base64,${image.toString('base64')}`} width={900} height={630} style={{position:'absolute',right:0,top:0,objectFit:'cover'}}/><div style={{position:'absolute',inset:0,background:'linear-gradient(90deg,#17242d,rgba(23,36,45,.85) 30%,rgba(23,36,45,0) 90%)',display:'flex'}}/><div style={{display:'flex',flexDirection:'column',padding:55,position:'relative',width:760}}><div style={{fontSize:20,letterSpacing:3}}>BAUPLANINVEST</div><div style={{fontSize:60,lineHeight:1.15,marginTop:80,display:'flex'}}>Пространства для развития бизнеса</div><div style={{fontSize:21,color:'#d8ad74',marginTop:30}}>Девелопмент коммерческой недвижимости в Беларуси</div><div style={{fontSize:12,color:'#cad4dc',marginTop:'auto'}}>Демонстрационная архитектурная визуализация</div></div></div>,{...size,fonts:[{name:'Noto',data:font,weight:400,style:'normal'}]});
+}
